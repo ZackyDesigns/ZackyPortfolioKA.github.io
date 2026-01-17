@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zacky | Kase Artist Portfolio</title>
+<style>
+  /* Base Reset */
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial Rounded MT Bold', sans-serif; }
+  html { scroll-behavior: smooth; scroll-snap-type: y mandatory; }
+  body { background: #111; color: #fff; overflow-x: hidden; position: relative; }
+
+/* Under Construction Bar */
+.construction-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 42px;
+  z-index: 3000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  letter-spacing: 2px;
+  color: #000;
+  text-transform: uppercase;
+  background: repeating-linear-gradient(
+    45deg,
+    #f5c400 0px,
+    #f5c400 20px,
+    #000 20px,
+    #000 40px
+  );
+  animation: moveStripes 1.2s linear infinite;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+}
+
+.construction-bar span {
+  background: rgba(245,196,0,0.9);
+  padding: 4px 12px;
+  border-radius: 4px;
+}
+
+/* Push content down so it doesn't hide under bar */
+body {
+  padding-top: 42px;
+}
+
+@keyframes moveStripes {
+  from { background-position: 0 0; }
+  to { background-position: 60px 0; }
+}
+
+
+  /* Gradient Sidebars */
+  .gradient-side {
+    position: fixed;
+    top: 0;
+    width: 50px;
+    height: 200%;
+    z-index: 10;
+    animation: moveGradient 8s ease-in-out infinite alternate;
+  }
+  .left-gradient { left: 0; background: linear-gradient(180deg, #6CB1E7, #4A7FC1, #384A8C, #6FA14B, #4C8743, #355B35, #92C55C, #C05333, #E5C32B, #DB9E2E, #C0542F, #A22326, #821E2C, #A32A5A, #C02063, #652A64); }
+  .right-gradient { right: 0; background: linear-gradient(180deg, #652A64, #C02063, #C05333, #DB9E2E, #E5C32B, #6CB1E7, #384A8C, #355B35, #92C55C, #A32A5A, #C02063, #821E2C, #A22326); }
+  @keyframes moveGradient { 0% { transform: translateY(0); } 100% { transform: translateY(-50%); } }
+
+  /* Container */
+  .container { width: 90%; max-width: 1200px; margin: 0 auto; padding: 50px 60px; }
+
+  /* Sections */
+  section { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; margin: 50px 0; scroll-snap-align: start; }
+
+  /* Glowing Titles */
+  h1.asset-title { font-size: 3em; margin-bottom: 30px; color: #fff; text-shadow: 0 0 5px rgba(255,255,255,0.6), 0 0 10px rgba(255,255,255,0.4); animation: glowText 2s ease-in-out infinite alternate; }
+  @keyframes glowText { 0% { text-shadow: 0 0 3px rgba(255,255,255,0.3), 0 0 6px rgba(255,255,255,0.2); } 100% { text-shadow: 0 0 8px rgba(255,255,255,0.7), 0 0 15px rgba(255,255,255,0.5); } }
+
+  /* Asset Images */
+  .asset { width: 100%; max-width: 900px; margin: 20px 0; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,0.4); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+  .asset img { width: 100%; height: auto; display: block; transition: transform 0.3s ease; }
+  .asset:hover { transform: scale(1.03); box-shadow: 0 10px 30px rgba(255,255,255,0.2); cursor: pointer; }
+
+  /* Pamphlet 2-page container */
+  .pamphlet-container { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; width: 100%; max-width: 1000px; margin: 0 auto 40px; perspective: 1500px; position: relative; }
+  .pamphlet-container::after { content: ""; position: absolute; top: 0; bottom: 0; left: 50%; width: 4px; transform: translateX(-50%); pointer-events: none; background: linear-gradient(to bottom, rgba(255,255,255,0.05), rgba(255,255,255,0.15), rgba(255,255,255,0.05)); }
+  .pamphlet-page { flex: 1 1 45%; max-width: 480px; border-radius: 10px; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,0.5), inset 0 0 15px rgba(0,0,0,0.3); transition: transform 0.5s ease, box-shadow 0.5s ease; transform-style: preserve-3d; background: #111; position: relative; }
+  .left-page::after, .right-page::after { content: ""; position: absolute; top: 0; bottom: 0; width: 40px; pointer-events: none; }
+  .left-page::after { right: 0; background: linear-gradient(to left, rgba(0,0,0,0.2), rgba(0,0,0,0)); }
+  .right-page::after { left: 0; background: linear-gradient(to right, rgba(0,0,0,0.2), rgba(0,0,0,0)); }
+  .left-page { transform: rotateY(-8deg) scale(1); }
+  .right-page { transform: rotateY(8deg) scale(1); }
+  .pamphlet-page img { width: 100%; height: auto; display: block; }
+  .pamphlet-page:hover { transform: scale(1.05) rotateY(0deg); box-shadow: 0 15px 40px rgba(255,255,255,0.2), inset 0 0 20px rgba(0,0,0,0.4); }
+
+  /* Carousel Grid 3x3 */
+  .carousel-grid .grid-container { display: grid; grid-template-columns: repeat(3, 1fr); grid-gap: 10px; width: 100%; max-width: 1200px; margin: 0 auto; transition: transform 0.3s ease, grid-gap 0.3s ease; }
+  .carousel-grid.hovered .grid-container { transform: scale(1.05); grid-gap: 0; }
+  .carousel-grid .grid-item img { width: 100%; display: block; border-radius: 10px; }
+
+  /* Magnifying lens */
+  #magnifying-lens { position: fixed; pointer-events: none; width: 120px; height: 120px; border-radius: 50%; border: 3px solid rgba(255,255,255,0.7); box-shadow: 0 0 15px rgba(255,255,255,0.5); transform: translate(-50%, -50%); transition: transform 0.05s ease; z-index: 1000; display: none; background-repeat: no-repeat; }
+
+  /* Lightbox overlay */
+  .lightbox-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); display: flex; justify-content: center; align-items: center; z-index: 2000; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+  .lightbox-overlay.active { opacity: 1; pointer-events: auto; }
+  .lightbox-overlay img { max-width: 95%; max-height: 95%; border-radius: 10px; box-shadow: 0 0 40px rgba(255,255,255,0.2); }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .container { padding: 30px 20px; }
+    h1.asset-title { font-size: 2em; }
+    .carousel-grid .grid-container { grid-template-columns: repeat(2, 1fr); }
+    .pamphlet-container { flex-direction: column; gap: 15px; perspective: none; }
+    .left-page, .right-page { transform: rotateY(0deg); }
+    .pamphlet-page:hover { transform: scale(1.03); }
+    .pamphlet-container::after { display: none; }
+    .left-page::after, .right-page::after { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Under Construction Bar -->
+<div class="construction-bar">
+  <span> UNDER CONSTRUCTION — THINGS MAY BREAK </span>
+</div>
+
+
+<!-- Gradient sidebars -->
+<div class="gradient-side left-gradient"></div>
+<div class="gradient-side right-gradient"></div>
+
+<div class="container">
+
+  <section>
+    <h1 class="asset-title">Billboards</h1>
+    <div class="asset"><img src="images/KASignBoard3.png" alt="Billboard Design"></div>
+  </section>
+
+  <section>
+    <h1 class="asset-title">Business Cards</h1>
+    <div class="asset"><img src="images/KABusinessCards2.1.jpg" alt="Business Card Design"></div>
+  </section>
+
+  <section>
+    <h1 class="asset-title">Posters</h1>
+    <div class="asset"><img src="images/KA - Black Friday Updated size.png" alt="Poster Design"></div>
+  </section>
+
+  <section>
+    <h1 class="asset-title">Pamphlets</h1>
+    <div class="pamphlet-container">
+      <div class="pamphlet-page left-page">
+        <img src="images/KA - Pamphlet ver 6 Print Fixed Text.png" alt="Pamphlet Page 1">
+      </div>
+      <div class="pamphlet-page right-page">
+        <img src="images/KAPamphletver6PrintFixedText_Page_2.jpg" alt="Pamphlet Page 2">
+      </div>
+    </div>
+    <div class="asset" style="margin-top: 30px;">
+      <img src="images/KA - A5 Pamphlet 1.2.4.jpg" alt="New A5 Pamphlet">
+    </div>
+  </section>
+
+  <section>
+    <h1 class="asset-title">Vending Machine Wraps</h1>
+    <div class="asset"><img src="images/KA Vending Machine 4.9 Zacky Backup.jpg" alt="Vending Wrap Design"></div>
+  </section>
+
+  <section>
+    <h1 class="asset-title">Banners</h1>
+    <div class="asset"><img src="images/KA Banner 8.jpg" alt="Banner Design"></div>
+  </section>
+
+  <section>
+    <h1 class="asset-title">Roller Banners</h1>
+    <div class="asset"><img src="images/KA - Roller Banner.jpg" alt="Roller Banner Design"></div>
+  </section>
+
+  <section class="carousel-grid">
+    <h1 class="asset-title">Instagram Carousel Grid</h1>
+    <div class="grid-container">
+      <div class="grid-item"><img src="images/carousel/TL.jpg" alt=""></div>
+      <div class="grid-item"><img src="images/carousel/TM.jpg" alt=""></div>
+      <div class="grid-item"><img src="images/carousel/TR.jpg" alt=""></div>
+      <div class="grid-item"><img src="images/carousel/ML.jpg" alt=""></div>
+      <div class="grid-item"><img src="images/carousel/MM.jpg" alt=""></div>
+      <div class="grid-item"><img src="images/carousel/MR.jpg" alt=""></div>
+      <div class="grid-item"><img src="images/carousel/BL.jpg" alt=""></div>
+      <div class="grid-item"><img src="images/carousel/BM.jpg" alt=""></div>
+      <div class="grid-item"><img src="images/carousel/BR.jpg" alt=""></div>
+    </div>
+  </section>
+
+</div>
+
+<!-- Lightbox overlay -->
+<div id="lightbox" class="lightbox-overlay">
+  <img src="" alt="Expanded Image">
+</div>
+
+<div id="magnifying-lens"></div>
+
+<script>
+const lens = document.getElementById('magnifying-lens');
+const carouselGrid = document.querySelector('.carousel-grid');
+const gridContainer = carouselGrid.querySelector('.grid-container');
+
+carouselGrid.addEventListener('mouseenter', () => {
+  carouselGrid.classList.add('hovered');
+  lens.style.display = 'block';
+});
+carouselGrid.addEventListener('mouseleave', () => {
+  carouselGrid.classList.remove('hovered');
+  lens.style.display = 'none';
+});
+carouselGrid.addEventListener('mousemove', e => {
+  const rect = gridContainer.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+  lens.style.left = `${e.clientX}px`;
+  lens.style.top = `${e.clientY}px`;
+  lens.style.backgroundImage = `url('images/carousel/unified-grid.jpg')`;
+  lens.style.backgroundSize = `${rect.width*2.5}px ${rect.height*2.5}px`;
+  lens.style.backgroundPosition = `-${x*2.5 - lens.offsetWidth/2}px -${y*2.5 - lens.offsetHeight/2}px`;
+});
+
+// Lightbox functionality
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = lightbox.querySelector('img');
+
+// Target the images for lightbox
+const clickableImages = document.querySelectorAll(
+  '.asset img[alt*="Poster"], ' +
+  '.asset img[alt*="Vending Wrap"], ' +
+  '.asset img[alt*="Banner"], ' +
+  '.asset img[alt*="Roller Banner"]'
+);
+
+clickableImages.forEach(img => {
+  img.style.cursor = 'pointer';
+  img.addEventListener('click', () => {
+    lightboxImg.src = img.src;
+    lightbox.classList.add('active');
+  });
+});
+
+// Close lightbox when clicking overlay
+lightbox.addEventListener('click', () => {
+  lightbox.classList.remove('active');
+});
+</script>
+
+</body>
+</html>
